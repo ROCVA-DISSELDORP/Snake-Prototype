@@ -20,13 +20,23 @@ function update() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
   snake.unshift(head);
 
+  // Wrap around
+  if (head.x < 0) head.x = gridWidth - 1;
+  if (head.x >= gridWidth) head.x = 0;
+  if (head.y < 0) head.y = gridHeight - 1;
+  if (head.y >= gridHeight) head.y = 0;
+
+  snake[0].x = head.x;
+  snake[0].y = head.y;
+
+
   if (head.x === food.x && head.y === food.y) {
     food = { x: Math.floor(Math.random() * gridWidth), y: Math.floor(Math.random() * gridHeight) };
   } else {
     snake.pop();
   }
 
-  if (head.x < 0 || head.x >= gridWidth || head.y < 0 || head.y >= gridHeight || checkCollision(head)) {
+  if (checkCollision(head)) {
     alert("Game Over!");
     location.reload();
   }
