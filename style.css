@@ -1,3 +1,5 @@
+
+/* Deze CSS code bepaalt de kleur van de game en maakt een border rond de game */
 #gameCanvas {
   background-color: #222;
   border: 2px solid #000;

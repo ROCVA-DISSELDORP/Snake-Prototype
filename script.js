@@ -1,23 +1,36 @@
+// Zoek de canvas element op de html pagina
 const canvas = document.getElementById('gameCanvas');
+// Zoek de context van de canvas waarmee we kunnen tekenen
 const ctx = canvas.getContext('2d');
 
+// De volgende variabelen bepalen de grootte van de game
 const gridSize = 20;
 const gridWidth = canvas.width / gridSize;
 const gridHeight = canvas.height / gridSize;
 
-let snake = [{ x: 10, y: 10 }];
-let food = { x: 5, y: 5 };
+
+// De volgende variabelen bepalen de start positie van de game
+let snake = [{ x: 10, y: 10 }]; // De eerste segment is de begin van de snake
+let food = { x: 5, y: 5 };     // De eerste food is op de locatie (5, 5)
+
+// De volgende variabelen bepalen de richting van de snake
 let dx = 1;
 let dy = 0;
 
+
+// De volgende functie start de game
 function gameLoop() {
   update();
   draw();
+  //herhaal de gameloop over 100 milliseconden
   setTimeout(gameLoop, 100);
 }
 
 function update() {
+  // De volgende functie bepaalt de nieuwe positie van de snake
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+  // Voeg de nieuwe positie toe aan de begin van de snake
   snake.unshift(head);
 
   // Wrap around
@@ -42,6 +55,8 @@ function update() {
   }
 }
 
+
+// De volgende functie checkt of de snake een botsing met zichzelf heeft
 function checkCollision(head) {
   for (let i = 1; i < snake.length; i++) {
     if (head.x === snake[i].x && head.y === snake[i].y) {
@@ -51,6 +66,7 @@ function checkCollision(head) {
   return false;
 }
 
+// Teken de huidige staat van de game op het canvas
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'green';
@@ -61,6 +77,8 @@ function draw() {
   ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
 }
 
+
+// verander de richting van de snake met de toetsen
 document.addEventListener('keydown', (event) => {
   const key = event.key;
   switch (key) {
@@ -79,4 +97,5 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+// roep de gameloop voor de eerste keer aan
 gameLoop();
